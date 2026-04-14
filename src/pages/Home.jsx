@@ -97,7 +97,7 @@ export default function Home() {
         textAlign: "center",
         padding: "15px"
       }}>
-        <p className="mb-0">© 2026 RentaFácil</p>
+        <p className="mb-0">© 2026 RentaFácil pablo marin</p>
       </div>
 
     </div>
