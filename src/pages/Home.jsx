@@ -1,9 +1,14 @@
+import { Link } from "react-router-dom";
+
 export default function Home() {
   return (
     <div className="text-center mt-5">
       <h1>RentaFácil 🚗</h1>
       <p>Tu sistema de alquiler fácil y rápido</p>
-      <a href="/login" className="btn btn-primary">Ingresar</a>
+
+      <Link to="/login" className="btn btn-primary">
+        Ingresar
+      </Link>
     </div>
   );
 }
