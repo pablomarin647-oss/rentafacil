@@ -2,65 +2,102 @@ import { Link } from "react-router-dom";
 
 export default function Home() {
   return (
-    <div>
+    <div style={{ fontFamily: "Arial, sans-serif" }}>
 
       {/* HERO */}
-      <div className="bg-dark text-white text-center py-5">
-        <h1 className="display-4">RentaFácil 🚗</h1>
-        <p className="lead">
-          Alquila vehículos de forma rápida, segura y confiable
+      <div style={{
+        background: "linear-gradient(135deg, #0f172a, #1e293b)",
+        color: "white",
+        padding: "80px 20px",
+        textAlign: "center"
+      }}>
+        <h1 style={{ fontSize: "3rem", fontWeight: "bold" }}>
+          RentaFácil 🚗
+        </h1>
+
+        <p style={{ fontSize: "1.2rem", marginTop: "10px", color: "#cbd5f5" }}>
+          Alquila vehículos de forma rápida, segura y moderna
         </p>
 
-        <div className="mt-4">
-          <Link to="/login" className="btn btn-light m-2">
+        <div style={{ marginTop: "30px" }}>
+          <Link
+            to="/login"
+            className="btn"
+            style={{
+              background: "#3b82f6",
+              color: "white",
+              margin: "10px",
+              padding: "10px 20px",
+              borderRadius: "10px"
+            }}
+          >
             Iniciar Sesión
           </Link>
 
-          <Link to="/register" className="btn btn-outline-light m-2">
+          <Link
+            to="/register"
+            className="btn"
+            style={{
+              border: "1px solid #3b82f6",
+              color: "#3b82f6",
+              margin: "10px",
+              padding: "10px 20px",
+              borderRadius: "10px"
+            }}
+          >
             Registrarse
           </Link>
         </div>
       </div>
 
-      {/* SECCIÓN SERVICIOS */}
+      {/* SERVICIOS */}
       <div className="container text-center mt-5">
         <h2 className="mb-4">¿Qué puedes hacer?</h2>
 
         <div className="row">
-          <div className="col-md-4">
-            <div className="card shadow p-3">
-              <h5>🚗 Alquiler de Vehículos</h5>
-              <p>Gestiona y alquila vehículos fácilmente</p>
+          {[
+            { icon: "🚗", title: "Vehículos", text: "Administra vehículos fácilmente" },
+            { icon: "👤", title: "Usuarios", text: "Gestiona los usuarios del sistema" },
+            { icon: "📅", title: "Reservas", text: "Controla las reservas" }
+          ].map((item, i) => (
+            <div className="col-md-4" key={i}>
+              <div style={{
+                background: "#ffffff",
+                borderRadius: "15px",
+                padding: "20px",
+                boxShadow: "0 10px 20px rgba(0,0,0,0.1)",
+                marginBottom: "20px"
+              }}>
+                <h3>{item.icon}</h3>
+                <h5>{item.title}</h5>
+                <p>{item.text}</p>
+              </div>
             </div>
-          </div>
-
-          <div className="col-md-4">
-            <div className="card shadow p-3">
-              <h5>👤 Gestión de Usuarios</h5>
-              <p>Administra los usuarios del sistema</p>
-            </div>
-          </div>
-
-          <div className="col-md-4">
-            <div className="card shadow p-3">
-              <h5>📅 Reservas</h5>
-              <p>Controla las reservas en tiempo real</p>
-            </div>
-          </div>
+          ))}
         </div>
       </div>
 
-      {/* SECCIÓN INFO */}
-      <div className="bg-light text-center py-5 mt-5">
-        <h3>¿Por qué elegir RentaFácil?</h3>
-        <p className="mt-3">
-          Plataforma sencilla, rápida y diseñada para facilitar el alquiler de vehículos.
+      {/* INFO */}
+      <div style={{
+        background: "#f1f5f9",
+        padding: "60px 20px",
+        textAlign: "center",
+        marginTop: "40px"
+      }}>
+        <h3>Plataforma moderna y fácil de usar</h3>
+        <p style={{ color: "#475569", marginTop: "10px" }}>
+          Diseñada para mejorar la gestión de alquiler de vehículos de manera eficiente.
         </p>
       </div>
 
       {/* FOOTER */}
-      <div className="bg-dark text-white text-center py-3">
-        <p className="mb-0">© 2026 RentaFácil - Todos los derechos reservados</p>
+      <div style={{
+        background: "#0f172a",
+        color: "white",
+        textAlign: "center",
+        padding: "15px"
+      }}>
+        <p className="mb-0">© 2026 RentaFácil</p>
       </div>
 
     </div>
