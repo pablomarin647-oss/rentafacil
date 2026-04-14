@@ -2,13 +2,21 @@ import { Link } from "react-router-dom";
 
 export default function Home() {
   return (
-    <div className="text-center mt-5">
-      <h1>RentaFácil 🚗</h1>
-      <p>Tu sistema de alquiler fácil y rápido</p>
+    <div className="vh-100 d-flex flex-column justify-content-center align-items-center bg-dark text-white">
+      
+      <h1 className="mb-3">RentaFácil 🚗</h1>
+      <p className="mb-4">Alquila vehículos de forma rápida y segura</p>
 
-      <Link to="/login" className="btn btn-primary">
-        Ingresar
-      </Link>
+      <div>
+        <Link to="/login" className="btn btn-light m-2">
+          Iniciar Sesión
+        </Link>
+
+        <Link to="/register" className="btn btn-outline-light m-2">
+          Registrarse
+        </Link>
+      </div>
+
     </div>
   );
 }

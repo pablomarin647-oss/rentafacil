@@ -1,26 +1,47 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function Login() {
-  const [email, setEmail] = useState("");
+  const [correo, setCorreo] = useState("");
   const [pass, setPass] = useState("");
+
+  const navigate = useNavigate();
 
   const login = (e) => {
     e.preventDefault();
 
-    if (email && pass) {
+    const userGuardado = JSON.parse(localStorage.getItem("usuario"));
+
+    if (
+      userGuardado &&
+      userGuardado.correo === correo &&
+      userGuardado.pass === pass
+    ) {
       localStorage.setItem("auth", "true");
-      window.location.href = "/dashboard";
+      navigate("/dashboard");
     } else {
-      alert("Completa los campos");
+      alert("Datos incorrectos");
     }
   };
 
   return (
     <div className="container mt-5">
       <h2>Login</h2>
+
       <form onSubmit={login}>
-        <input className="form-control mb-2" placeholder="Correo" onChange={(e)=>setEmail(e.target.value)} />
-        <input className="form-control mb-2" type="password" placeholder="Contraseña" onChange={(e)=>setPass(e.target.value)} />
+        <input
+          className="form-control mb-2"
+          placeholder="Correo"
+          onChange={(e)=>setCorreo(e.target.value)}
+        />
+
+        <input
+          className="form-control mb-2"
+          type="password"
+          placeholder="Contraseña"
+          onChange={(e)=>setPass(e.target.value)}
+        />
+
         <button className="btn btn-success">Entrar</button>
       </form>
     </div>
