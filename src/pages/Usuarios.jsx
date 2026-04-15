@@ -15,10 +15,7 @@ export default function Usuarios() {
   }, []);
 
   const handleChange = (e) => {
-    setForm({
-      ...form,
-      [e.target.name]: e.target.value
-    });
+    setForm({ ...form, [e.target.name]: e.target.value });
   };
 
   const guardar = (e) => {
@@ -31,34 +28,22 @@ export default function Usuarios() {
 
     const nuevoUsuario = {
       id: Date.now(),
-      nombre: form.nombre,
-      documento: form.documento,
-      telefono: form.telefono
+      ...form
     };
 
     const data = [...usuarios, nuevoUsuario];
 
     saveUsuarios(data);
-    setUsuarios(data);
+    setUsuarios(data); // 🔥 ESTO ES LO QUE HACE QUE APAREZCA
 
-    setForm({
-      nombre: "",
-      documento: "",
-      telefono: ""
-    });
-  };
-
-  const eliminar = (id) => {
-    const data = usuarios.filter((u) => u.id !== id);
-    saveUsuarios(data);
-    setUsuarios(data);
+    setForm({ nombre: "", documento: "", telefono: "" });
   };
 
   return (
     <div className="container">
       <h2>Usuarios</h2>
 
-      {/* FORMULARIO */}
+      {/* 🔥 NO TOCAMOS CSS */}
       <form className="form-container" onSubmit={guardar}>
         <input
           name="nombre"
@@ -81,18 +66,14 @@ export default function Usuarios() {
           onChange={handleChange}
         />
 
-        <button type="submit">REGISTRAR</button>
+        {/* 🔥 IMPORTANTE */}
+        <button type="submit">Registrar usuario</button>
       </form>
 
-      {/* LISTA */}
       <ul>
         {usuarios.map((u) => (
           <li key={u.id}>
             👤 {u.nombre} - {u.documento} - {u.telefono}
-
-            <button onClick={() => eliminar(u.id)}>
-              Eliminar
-            </button>
           </li>
         ))}
       </ul>
