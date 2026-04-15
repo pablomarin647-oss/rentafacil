@@ -48,22 +48,21 @@ export default function Reservas() {
     }
 
     const vehiculo = vehiculos.find(v => v.id == form.vehiculoId);
+    const usuario = usuarios.find(u => u.id == form.usuarioId);
 
-    if (!vehiculo) {
-      alert("Vehículo no válido");
+    if (!vehiculo || !usuario) {
+      alert("Usuario o vehículo no válido");
       return;
     }
 
     const dias = calcularDias(form.fechaInicio, form.fechaFin);
 
-    const valor = dias * (vehiculo.precio || 50000); // si no tienes precio, usa base
-
-    const usuario = usuarios.find(u => u.id == form.usuarioId);
+    const valor = dias * (vehiculo.precio || 50000);
 
     const nuevaReserva = {
       id: Date.now(),
       usuarioId: form.usuarioId,
-      usuarioNombre: usuario?.nombre || "",
+      usuarioNombre: usuario.nombre,
       vehiculoId: form.vehiculoId,
       vehiculoNombre: `${vehiculo.marca} - ${vehiculo.placa}`,
       fechaInicio: form.fechaInicio,
