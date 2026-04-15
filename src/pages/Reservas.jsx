@@ -19,14 +19,13 @@ export default function Reservas() {
   });
 
   useEffect(() => {
-    setUsuarios(getUsuarios() || []);
-    setVehiculos(getVehiculos() || []);
-    setReservas(getReservas() || []);
+    setUsuarios(getUsuarios());
+    setVehiculos(getVehiculos());
+    setReservas(getReservas());
   }, []);
 
-  const handleChange = (e) => {
+  const handleChange = (e) =>
     setForm({ ...form, [e.target.name]: e.target.value });
-  };
 
   const guardar = (e) => {
     e.preventDefault();
@@ -34,10 +33,7 @@ export default function Reservas() {
     const usuario = usuarios.find(u => u.id == form.usuarioId);
     const vehiculo = vehiculos.find(v => v.id == form.vehiculoId);
 
-    if (!usuario || !vehiculo) {
-      alert("Selecciona usuario y vehículo");
-      return;
-    }
+    if (!usuario || !vehiculo) return;
 
     const nueva = {
       id: Date.now(),
@@ -52,12 +48,7 @@ export default function Reservas() {
     saveReservas(data);
     setReservas(data);
 
-    setForm({
-      usuarioId: "",
-      vehiculoId: "",
-      fechaInicio: "",
-      fechaFin: ""
-    });
+    setForm({ usuarioId: "", vehiculoId: "", fechaInicio: "", fechaFin: "" });
   };
 
   return (
@@ -66,14 +57,14 @@ export default function Reservas() {
 
       <form className="form-container" onSubmit={guardar}>
         <select name="usuarioId" onChange={handleChange}>
-          <option value="">Usuario</option>
+          <option>Usuario</option>
           {usuarios.map(u => (
             <option key={u.id} value={u.id}>{u.nombre}</option>
           ))}
         </select>
 
         <select name="vehiculoId" onChange={handleChange}>
-          <option value="">Vehículo</option>
+          <option>Vehículo</option>
           {vehiculos.map(v => (
             <option key={v.id} value={v.id}>{v.placa}</option>
           ))}
