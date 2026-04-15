@@ -20,29 +20,30 @@ export default function Login() {
       localStorage.setItem("auth", "true");
       navigate("/dashboard");
     } else {
-      alert("Datos incorrectos");
+      alert("❌ Datos incorrectos");
     }
   };
 
   return (
-    <div className="container mt-5">
+    <div className="form-container">
       <h2>Login</h2>
 
       <form onSubmit={login}>
         <input
-          className="form-control mb-2"
+          type="email"
           placeholder="Correo"
-          onChange={(e)=>setCorreo(e.target.value)}
+          value={correo}
+          onChange={(e) => setCorreo(e.target.value)}
         />
 
         <input
-          className="form-control mb-2"
           type="password"
           placeholder="Contraseña"
-          onChange={(e)=>setPass(e.target.value)}
+          value={pass}
+          onChange={(e) => setPass(e.target.value)}
         />
 
-        <button className="btn btn-success">Entrar</button>
+        <button type="submit">Entrar</button>
       </form>
     </div>
   );

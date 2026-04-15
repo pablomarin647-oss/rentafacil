@@ -1,14 +1,13 @@
 import { useState, useEffect } from "react";
 import { getVehiculos, saveVehiculos } from "../services/storage";
 
-export default function Vehiculo() {
+export default function Vehiculos() {
   const [vehiculos, setVehiculos] = useState([]);
   const [form, setForm] = useState({
     placa: "",
     marca: "",
     modelo: ""
   });
-  const [editId, setEditId] = useState(null);
 
   useEffect(() => {
     setVehiculos(getVehiculos());
@@ -18,23 +17,17 @@ export default function Vehiculo() {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const guardar = () => {
+  const guardar = (e) => {
+    e.preventDefault();
+
     if (!form.placa || !form.marca || !form.modelo) return;
 
-    let data = [...vehiculos];
-
-    if (editId !== null) {
-      data = data.map((v) =>
-        v.id === editId ? { id: editId, ...form } : v
-      );
-    } else {
-      data.push({ id: Date.now(), ...form });
-    }
+    const data = [...vehiculos, { ...form, id: Date.now() }];
 
     saveVehiculos(data);
     setVehiculos(data);
+
     setForm({ placa: "", marca: "", modelo: "" });
-    setEditId(null);
   };
 
   const eliminar = (id) => {
@@ -43,28 +36,39 @@ export default function Vehiculo() {
     setVehiculos(data);
   };
 
-  const editar = (vehiculo) => {
-    setForm(vehiculo);
-    setEditId(vehiculo.id);
-  };
-
   return (
-    <div>
+    <div className="container">
       <h2>Vehículos</h2>
 
-      <input name="placa" value={form.placa} onChange={handleChange} placeholder="Placa" />
-      <input name="marca" value={form.marca} onChange={handleChange} placeholder="Marca" />
-      <input name="modelo" value={form.modelo} onChange={handleChange} placeholder="Modelo" />
+      <form className="form-container" onSubmit={guardar}>
+        <input
+          name="placa"
+          placeholder="Placa"
+          value={form.placa}
+          onChange={handleChange}
+        />
 
-      <button onClick={guardar}>
-        {editId ? "Editar" : "Agregar"}
-      </button>
+        <input
+          name="marca"
+          placeholder="Marca"
+          value={form.marca}
+          onChange={handleChange}
+        />
+
+        <input
+          name="modelo"
+          placeholder="Modelo"
+          value={form.modelo}
+          onChange={handleChange}
+        />
+
+        <button type="submit">Guardar</button>
+      </form>
 
       <ul>
         {vehiculos.map((v) => (
           <li key={v.id}>
-            {v.placa} - {v.marca} - {v.modelo}
-            <button onClick={() => editar(v)}>Editar</button>
+            🚗 {v.placa} - {v.marca} - {v.modelo}
             <button onClick={() => eliminar(v.id)}>Eliminar</button>
           </li>
         ))}

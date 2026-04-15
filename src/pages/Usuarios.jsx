@@ -1,14 +1,13 @@
 import { useState, useEffect } from "react";
 import { getUsuarios, saveUsuarios } from "../services/storage";
 
-export default function Usuario() {
+export default function Usuarios() {
   const [usuarios, setUsuarios] = useState([]);
   const [form, setForm] = useState({
     nombre: "",
     documento: "",
     telefono: ""
   });
-  const [editId, setEditId] = useState(null);
 
   useEffect(() => {
     setUsuarios(getUsuarios());
@@ -18,23 +17,17 @@ export default function Usuario() {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const guardar = () => {
+  const guardar = (e) => {
+    e.preventDefault();
+
     if (!form.nombre || !form.documento || !form.telefono) return;
 
-    let data = [...usuarios];
-
-    if (editId !== null) {
-      data = data.map((u) =>
-        u.id === editId ? { id: editId, ...form } : u
-      );
-    } else {
-      data.push({ id: Date.now(), ...form });
-    }
+    const data = [...usuarios, { ...form, id: Date.now() }];
 
     saveUsuarios(data);
     setUsuarios(data);
+
     setForm({ nombre: "", documento: "", telefono: "" });
-    setEditId(null);
   };
 
   const eliminar = (id) => {
@@ -43,28 +36,39 @@ export default function Usuario() {
     setUsuarios(data);
   };
 
-  const editar = (user) => {
-    setForm(user);
-    setEditId(user.id);
-  };
-
   return (
-    <div>
+    <div className="container">
       <h2>Usuarios</h2>
 
-      <input name="nombre" value={form.nombre} onChange={handleChange} placeholder="Nombre" />
-      <input name="documento" value={form.documento} onChange={handleChange} placeholder="Documento" />
-      <input name="telefono" value={form.telefono} onChange={handleChange} placeholder="Teléfono" />
+      <form className="form-container" onSubmit={guardar}>
+        <input
+          name="nombre"
+          placeholder="Nombre"
+          value={form.nombre}
+          onChange={handleChange}
+        />
 
-      <button onClick={guardar}>
-        {editId ? "Editar" : "Agregar"}
-      </button>
+        <input
+          name="documento"
+          placeholder="Documento"
+          value={form.documento}
+          onChange={handleChange}
+        />
+
+        <input
+          name="telefono"
+          placeholder="Teléfono"
+          value={form.telefono}
+          onChange={handleChange}
+        />
+
+        <button type="submit">Guardar</button>
+      </form>
 
       <ul>
         {usuarios.map((u) => (
           <li key={u.id}>
-            {u.nombre} - {u.documento} - {u.telefono}
-            <button onClick={() => editar(u)}>Editar</button>
+            👤 {u.nombre} - {u.documento} - {u.telefono}
             <button onClick={() => eliminar(u.id)}>Eliminar</button>
           </li>
         ))}
