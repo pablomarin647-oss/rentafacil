@@ -1,4 +1,4 @@
-import { getUsuarios, getVehiculos, getReservas } from "../services/storage";
+import { Link } from "react-router-dom";
 
 export default function Dashboard() {
   return (
@@ -6,20 +6,17 @@ export default function Dashboard() {
       <h2>Dashboard</h2>
 
       <div className="dashboard">
-        <div className="card">
-          👤 Usuarios<br />
-          {getUsuarios().length}
-        </div>
+        <Link to="/usuarios">
+          <button>Registrar Usuarios</button>
+        </Link>
 
-        <div className="card">
-          🚗 Vehículos<br />
-          {getVehiculos().length}
-        </div>
+        <Link to="/vehiculos">
+          <button>Registrar Vehículos</button>
+        </Link>
 
-        <div className="card">
-          📅 Reservas<br />
-          {getReservas().length}
-        </div>
+        <Link to="/reservas">
+          <button>Hacer Reservas</button>
+        </Link>
       </div>
     </div>
   );
