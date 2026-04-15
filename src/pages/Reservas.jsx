@@ -19,20 +19,19 @@ export default function Reservas() {
   });
 
   useEffect(() => {
-    setUsuarios(getUsuarios());
-    setVehiculos(getVehiculos());
-    setReservas(getReservas());
+    setUsuarios(getUsuarios() || []);
+    setVehiculos(getVehiculos() || []);
+    setReservas(getReservas() || []);
   }, []);
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  // calcular días
-  const calcularDias = (inicio, fin) => {
-    const f1 = new Date(inicio);
-    const f2 = new Date(fin);
-    const diff = Math.ceil((f2 - f1) / (1000 * 60 * 60 * 24));
+  const calcularDias = (i, f) => {
+    const a = new Date(i);
+    const b = new Date(f);
+    const diff = Math.ceil((b - a) / (1000 * 60 * 60 * 24));
     return diff > 0 ? diff : 0;
   };
 
@@ -47,23 +46,27 @@ export default function Reservas() {
       return;
     }
 
-    const vehiculo = vehiculos.find(v => v.id == form.vehiculoId);
-    const usuario = usuarios.find(u => u.id == form.usuarioId);
+    const usuario = usuarios.find(
+      (u) => String(u.id) === String(form.usuarioId)
+    );
 
-    if (!vehiculo || !usuario) {
-      alert("Usuario o vehículo no válido");
+    const vehiculo = vehiculos.find(
+      (v) => String(v.id) === String(form.vehiculoId)
+    );
+
+    if (!usuario || !vehiculo) {
+      alert("Usuario o vehículo inválido");
       return;
     }
 
     const dias = calcularDias(form.fechaInicio, form.fechaFin);
-
     const valor = dias * (vehiculo.precio || 50000);
 
-    const nuevaReserva = {
+    const nueva = {
       id: Date.now(),
-      usuarioId: form.usuarioId,
+      usuarioId: usuario.id,
       usuarioNombre: usuario.nombre,
-      vehiculoId: form.vehiculoId,
+      vehiculoId: vehiculo.id,
       vehiculoNombre: `${vehiculo.marca} - ${vehiculo.placa}`,
       fechaInicio: form.fechaInicio,
       fechaFin: form.fechaFin,
@@ -71,7 +74,7 @@ export default function Reservas() {
       valor
     };
 
-    const data = [...reservas, nuevaReserva];
+    const data = [...reservas, nueva];
 
     saveReservas(data);
     setReservas(data);
@@ -85,7 +88,7 @@ export default function Reservas() {
   };
 
   const eliminar = (id) => {
-    const data = reservas.filter(r => r.id !== id);
+    const data = reservas.filter((r) => r.id !== id);
     saveReservas(data);
     setReservas(data);
   };
@@ -97,7 +100,7 @@ export default function Reservas() {
       {/* USUARIOS */}
       <select name="usuarioId" value={form.usuarioId} onChange={handleChange}>
         <option value="">Seleccionar usuario</option>
-        {usuarios.map(u => (
+        {usuarios.map((u) => (
           <option key={u.id} value={u.id}>
             {u.nombre}
           </option>
@@ -107,7 +110,7 @@ export default function Reservas() {
       {/* VEHICULOS */}
       <select name="vehiculoId" value={form.vehiculoId} onChange={handleChange}>
         <option value="">Seleccionar vehículo</option>
-        {vehiculos.map(v => (
+        {vehiculos.map((v) => (
           <option key={v.id} value={v.id}>
             {v.marca} - {v.placa}
           </option>
@@ -132,17 +135,15 @@ export default function Reservas() {
 
       <hr />
 
-      <h3>Listado de reservas</h3>
+      <h3>Listado</h3>
 
       <ul>
-        {reservas.map(r => (
+        {reservas.map((r) => (
           <li key={r.id}>
             👤 {r.usuarioNombre} <br />
             🚗 {r.vehiculoNombre} <br />
             📅 {r.fechaInicio} → {r.fechaFin} <br />
-            ⏱ {r.dias} días <br />
             💰 ${r.valor} <br />
-
             <button onClick={() => eliminar(r.id)}>Eliminar</button>
           </li>
         ))}
