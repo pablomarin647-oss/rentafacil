@@ -10,7 +10,7 @@ export default function Usuarios() {
   });
 
   useEffect(() => {
-    setUsuarios(getUsuarios());
+    setUsuarios(getUsuarios() || []);
   }, []);
 
   const handleChange = (e) => {
@@ -20,9 +20,17 @@ export default function Usuarios() {
   const guardar = (e) => {
     e.preventDefault();
 
-    if (!form.nombre || !form.documento || !form.telefono) return;
+    if (!form.nombre || !form.documento || !form.telefono) {
+      alert("Completa todos los campos");
+      return;
+    }
 
-    const data = [...usuarios, { ...form, id: Date.now() }];
+    const nuevoUsuario = {
+      ...form,
+      id: Date.now()
+    };
+
+    const data = [...usuarios, nuevoUsuario];
 
     saveUsuarios(data);
     setUsuarios(data);
@@ -40,6 +48,7 @@ export default function Usuarios() {
     <div className="container">
       <h2>Usuarios</h2>
 
+      {/* FORMULARIO FUNCIONAL */}
       <form className="form-container" onSubmit={guardar}>
         <input
           name="nombre"
@@ -62,9 +71,10 @@ export default function Usuarios() {
           onChange={handleChange}
         />
 
-        <button type="submit">Guardar</button>
+        <button type="submit">Registrar</button>
       </form>
 
+      {/* LISTA */}
       <ul>
         {usuarios.map((u) => (
           <li key={u.id}>

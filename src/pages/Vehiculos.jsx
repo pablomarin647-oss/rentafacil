@@ -10,7 +10,7 @@ export default function Vehiculos() {
   });
 
   useEffect(() => {
-    setVehiculos(getVehiculos());
+    setVehiculos(getVehiculos() || []);
   }, []);
 
   const handleChange = (e) => {
@@ -20,9 +20,17 @@ export default function Vehiculos() {
   const guardar = (e) => {
     e.preventDefault();
 
-    if (!form.placa || !form.marca || !form.modelo) return;
+    if (!form.placa || !form.marca || !form.modelo) {
+      alert("Completa todos los campos");
+      return;
+    }
 
-    const data = [...vehiculos, { ...form, id: Date.now() }];
+    const nuevoVehiculo = {
+      ...form,
+      id: Date.now()
+    };
+
+    const data = [...vehiculos, nuevoVehiculo];
 
     saveVehiculos(data);
     setVehiculos(data);
@@ -62,7 +70,7 @@ export default function Vehiculos() {
           onChange={handleChange}
         />
 
-        <button type="submit">Guardar</button>
+        <button type="submit">Registrar</button>
       </form>
 
       <ul>
