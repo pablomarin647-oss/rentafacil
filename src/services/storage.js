@@ -1,19 +1,17 @@
-const get = (key) => {
-  return JSON.parse(localStorage.getItem(key)) || [];
-};
+export const getUsuarios = () =>
+  JSON.parse(localStorage.getItem("usuarios")) || [];
 
-const set = (key, data) => {
-  localStorage.setItem(key, JSON.stringify(data));
-};
+export const getVehiculos = () =>
+  JSON.parse(localStorage.getItem("vehiculos")) || [];
 
-// USUARIOS
-export const getUsuarios = () => get("usuarios");
-export const saveUsuarios = (data) => set("usuarios", data);
+export const getReservas = () =>
+  JSON.parse(localStorage.getItem("reservas")) || [];
 
-// VEHICULOS
-export const getVehiculos = () => get("vehiculos");
-export const saveVehiculos = (data) => set("vehiculos", data);
+export const saveUsuarios = (data) =>
+  localStorage.setItem("usuarios", JSON.stringify(data));
 
-// RESERVAS
-export const getReservas = () => get("reservas");
-export const saveReservas = (data) => set("reservas", data);
+export const saveVehiculos = (data) =>
+  localStorage.setItem("vehiculos", JSON.stringify(data));
+
+export const saveReservas = (data) =>
+  localStorage.setItem("reservas", JSON.stringify(data));
