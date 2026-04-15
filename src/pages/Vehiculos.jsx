@@ -25,12 +25,8 @@ export default function Vehiculos() {
       return;
     }
 
-    const nuevoVehiculo = {
-      ...form,
-      id: Date.now()
-    };
-
-    const data = [...vehiculos, nuevoVehiculo];
+    const nuevo = { ...form, id: Date.now() };
+    const data = [...vehiculos, nuevo];
 
     saveVehiculos(data);
     setVehiculos(data);
@@ -38,16 +34,11 @@ export default function Vehiculos() {
     setForm({ placa: "", marca: "", modelo: "" });
   };
 
-  const eliminar = (id) => {
-    const data = vehiculos.filter((v) => v.id !== id);
-    saveVehiculos(data);
-    setVehiculos(data);
-  };
-
   return (
     <div className="container">
       <h2>Vehículos</h2>
 
+      {/* 🔥 IMPORTANTE: onSubmit AQUÍ */}
       <form className="form-container" onSubmit={guardar}>
         <input
           name="placa"
@@ -70,14 +61,14 @@ export default function Vehiculos() {
           onChange={handleChange}
         />
 
-        <button type="submit">Registrar</button>
+        {/* 🔥 IMPORTANTE: type submit */}
+        <button type="submit">Registrar vehículo</button>
       </form>
 
       <ul>
         {vehiculos.map((v) => (
           <li key={v.id}>
             🚗 {v.placa} - {v.marca} - {v.modelo}
-            <button onClick={() => eliminar(v.id)}>Eliminar</button>
           </li>
         ))}
       </ul>

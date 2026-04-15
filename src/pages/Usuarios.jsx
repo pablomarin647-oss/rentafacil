@@ -25,12 +25,8 @@ export default function Usuarios() {
       return;
     }
 
-    const nuevoUsuario = {
-      ...form,
-      id: Date.now()
-    };
-
-    const data = [...usuarios, nuevoUsuario];
+    const nuevo = { ...form, id: Date.now() };
+    const data = [...usuarios, nuevo];
 
     saveUsuarios(data);
     setUsuarios(data);
@@ -38,48 +34,22 @@ export default function Usuarios() {
     setForm({ nombre: "", documento: "", telefono: "" });
   };
 
-  const eliminar = (id) => {
-    const data = usuarios.filter((u) => u.id !== id);
-    saveUsuarios(data);
-    setUsuarios(data);
-  };
-
   return (
     <div className="container">
       <h2>Usuarios</h2>
 
-      {/* FORMULARIO FUNCIONAL */}
       <form className="form-container" onSubmit={guardar}>
-        <input
-          name="nombre"
-          placeholder="Nombre"
-          value={form.nombre}
-          onChange={handleChange}
-        />
+        <input name="nombre" placeholder="Nombre" onChange={handleChange} />
+        <input name="documento" placeholder="Documento" onChange={handleChange} />
+        <input name="telefono" placeholder="Teléfono" onChange={handleChange} />
 
-        <input
-          name="documento"
-          placeholder="Documento"
-          value={form.documento}
-          onChange={handleChange}
-        />
-
-        <input
-          name="telefono"
-          placeholder="Teléfono"
-          value={form.telefono}
-          onChange={handleChange}
-        />
-
-        <button type="submit">Registrar</button>
+        <button type="submit">Registrar usuario</button>
       </form>
 
-      {/* LISTA */}
       <ul>
         {usuarios.map((u) => (
           <li key={u.id}>
             👤 {u.nombre} - {u.documento} - {u.telefono}
-            <button onClick={() => eliminar(u.id)}>Eliminar</button>
           </li>
         ))}
       </ul>
